@@ -1,0 +1,78 @@
+# Logs（日志文件）
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Dependencies（依赖包）
+node_modules
+.pnp
+.pnp.js
+
+# Build outputs（打包产物）
+/dist
+dist-ssr
+*.local
+
+# Editor directories and files（编辑器配置）
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Environment variables（环境变量，含敏感信息）
+.env
+.env.local
+.env.*.local
+
+# Cache（缓存文件）
+.cache
+.parcel-cache
+.eslintcache
+.stylelintcache
+
+# 测试覆盖率报告
+coverage
+*.lcov
+
+# Vite 5+ 专属缓存目录
+.vite
+
+# 包管理器临时文件
+.npmrc.local
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnpm-store
+
+# 通用临时文件
+*.tmp
+*.bak
+*.swp
+*~
+
+# TypeScript 声明文件缓存
+*.tsbuildinfo
+
+# Storybook 构建产物
+storybook-static
+# 核心：忽略所有 npm 依赖包（包含 nprogress）
+node_modules/
+
+# 可选：忽略 npm/yarn 锁定文件（根据团队规范决定是否忽略）
+# package-lock.json
+# yarn.lock
+
+# 可选：忽略临时文件、日志等
+*.log
+.DS_Store
