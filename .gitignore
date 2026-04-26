@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.nuxt/
+.output/
+.data/
+*.log
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+study.worktrees/

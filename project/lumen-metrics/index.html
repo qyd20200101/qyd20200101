@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LumenMetrics | Enterprise Monitoring</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  </head>
+  <body>
+    <div id="app">
+      <div style="background: #1a1a1a; height: 100vh; display: flex; align-items: center; justify-content: center; flex-direction: column; color: #409eff; font-family: sans-serif;">
+        <div style="width: 40px; height: 40px; border: 3px solid rgba(64,158,255,0.2); border-top-color: #409eff; border-radius: 50%; animation: spin 1s linear infinite;"></div>
+        <p style="margin-top: 15px; letter-spacing: 2px; font-size: 12px;">LUMEN METRICS LOADING...</p>
+      </div>
+      <style>
+        @keyframes spin { to { transform: rotate(360deg); } }
+        body { margin: 0; background: #1a1a1a; }
+      </style>
+    </div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

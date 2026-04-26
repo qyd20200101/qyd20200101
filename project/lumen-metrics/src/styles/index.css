@@ -1,0 +1,178 @@
+:root {
+  --primary-color: #409eff;
+  --bg-dark: #141414;
+  --text-dark: #e5eaf3;
+  --bg-light: #ffffff;
+  --text-light: #303133;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  background-color: var(--el-bg-color-page);
+  color: var(--el-text-color-primary);
+  transition: background-color 0.3s, color 0.3s;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Aurora Glow Background */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  width: 50vw;
+  height: 50vh;
+  filter: blur(120px);
+  z-index: -1;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+body::before {
+  background: radial-gradient(circle, #409eff 0%, transparent 70%);
+  top: -10%;
+  left: -10%;
+}
+
+body::after {
+  background: radial-gradient(circle, #67c23a 0%, transparent 70%);
+  bottom: -10%;
+  right: -10%;
+}
+
+/* Noise Texture Overlay */
+.app-noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+#app {
+  width: 100vw;
+  height: 100%;
+}
+
+/* Premium Notification Styling */
+.custom-notification {
+  border-radius: 12px !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15) !important;
+}
+
+.dark .custom-notification {
+  background: rgba(30, 30, 30, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+}
+
+.custom-notification .el-notification__title {
+  font-weight: 800 !important;
+  letter-spacing: 0.5px;
+}
+
+.custom-notification .el-notification__content {
+  color: var(--el-text-color-regular) !important;
+  font-size: 13px !important;
+}
+
+/* Global Animations */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.el-card {
+  animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.el-table {
+  animation: fadeIn 0.8s ease both;
+}
+
+.panel-layout {
+  animation: fadeIn 0.5s ease both;
+}
+
+/* Glassmorphism utility */
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.dark .glass-effect {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.el-card,
+.el-dialog,
+.el-table,
+.el-input__wrapper {
+  border-radius: 16px !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.el-card {
+  border: none !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08) !important;
+}
+
+.dark .el-card {
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4) !important;
+}
+
+/* Base resets */
+* {
+  box-sizing: border-box;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--el-color-primary-rgb), 0.2);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--el-color-primary-rgb), 0.4);
+}
+
+a {
+  text-decoration: none;
+}
