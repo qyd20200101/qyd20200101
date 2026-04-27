@@ -2,6 +2,14 @@
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
+## 项目文档
+为了确保项目的长期可维护性，请参考以下文档：
+- [需求文档 (PRD)](./docs/PRD.md)
+- [技术方案文档](./docs/TECHNICAL_SOLUTION.md)
+- [开发工作流文档](./docs/WORKFLOW.md)
+- [部署与维护文档](./docs/DEPLOYMENT_MAINTENANCE.md)
+
+
 ## Setup
 
 Make sure to install dependencies:
