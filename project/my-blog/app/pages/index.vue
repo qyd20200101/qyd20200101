@@ -16,7 +16,7 @@ const { data: posts } = await useAsyncData<BlogPost[]>('home-posts', async () =>
         .select('path', 'title', 'description', 'date', 'tags', 'stem')
         .all()
 
-    const localPosts = localPostsRaw.map(p => {
+    const localPosts = localPostsRaw.map((p: any) => {
         let date = p.date
         if (!date && p.stem) {
             // 从文件名 04_26学习日报 提取日期
@@ -85,7 +85,7 @@ const tagCounts = computed(() => {
     recentTags.forEach(t => counts[t] = 0)
     posts.value?.forEach(p => {
         p.tags?.forEach(t => {
-            if (t in counts) counts[t]++
+            if (t in counts) (counts[t] as any)++
         })
     })
     return counts
@@ -97,7 +97,7 @@ const focusCounts = computed(() => {
     posts.value?.forEach(post => {
         const p = post as any
         const match = focusOptions.find(f => f === p.type || f === p.category || f === p.theme)
-        if (match) counts[match]++
+        if (match) (counts[match] as any)++
     })
     return counts
 })
@@ -185,7 +185,7 @@ const filteredPosts = computed(() => {
                                         : 'bg-slate-100 text-slate-600 border-transparent hover:bg-slate-200'
                             ]">
                             # {{ tag }}
-                            <span v-if="tagCounts[tag] > 0" class="ml-1 opacity-60">({{ tagCounts[tag] }})</span>
+                            <span v-if="(tagCounts[tag] ?? 0) > 0" class="ml-1 opacity-60">({{ tagCounts[tag] }})</span>
                         </button>
                     </div>
 
@@ -271,7 +271,7 @@ const filteredPosts = computed(() => {
                                         : 'bg-white text-slate-500 border border-slate-100 hover:border-blue-200 hover:text-blue-600 hover:bg-blue-50/30'
                             ]">
                             {{ tag }}
-                            <span v-if="tagCounts[tag] > 0" class="ml-1 opacity-50">({{ tagCounts[tag] }})</span>
+                            <span v-if="(tagCounts[tag] ?? 0) > 0" class="ml-1 opacity-50">({{ tagCounts[tag] }})</span>
                         </button>
                     </div>
                 </div>
@@ -320,7 +320,7 @@ const filteredPosts = computed(() => {
                                             : 'bg-slate-50 text-slate-500 border-slate-100 hover:border-indigo-200 hover:text-indigo-600'
                                 ]">
                                 {{ focus }}
-                                <span v-if="focusCounts[focus] > 0" class="ml-1 opacity-50">({{ focusCounts[focus] }})</span>
+                                <span v-if="(focusCounts[focus] ?? 0) > 0" class="ml-1 opacity-50">({{ focusCounts[focus] }})</span>
                             </button>
                         </div>
                     </div>

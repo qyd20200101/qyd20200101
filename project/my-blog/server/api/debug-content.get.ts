@@ -1,4 +1,4 @@
 export default defineEventHandler(async (event) => {
-  const blog = await queryCollection(event, 'blog').all()
-  return blog.map(p => ({ path: p.path, stem: p.stem }))
+  const blog = await (queryCollection as any)(event, 'blog').all()
+  return (blog as any[]).map((p: any) => ({ path: p.path, stem: p.stem }))
 })

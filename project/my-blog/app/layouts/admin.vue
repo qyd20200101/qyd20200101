@@ -41,5 +41,7 @@ const logout = async () => {
                 <slot />
             </main>
         </div>
+        <!-- AI 助手浮动弹窗 -->
+        <AdminAIAssistant />
     </div>
 </template>

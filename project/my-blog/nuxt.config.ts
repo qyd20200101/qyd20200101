@@ -38,7 +38,9 @@ export default defineNuxtConfig({
     jwtSecret: process.env.JWT_SECRET,
     adminUsername: process.env.ADMIN_USERNAME,
     adminPassword: process.env.ADMIN_PASSWORD,
-    allowedIps: process.env.ALLOWED_IPS || ''
+    allowedIps: process.env.ALLOWED_IPS || '',
+    deepseekApiKey: process.env.DEEPSEEK_API_KEY,
+    deepseekBaseUrl: process.env.DEEPSEEK_BASE_URL
   },
   devtools: {
     enabled: false

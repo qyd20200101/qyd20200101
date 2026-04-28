@@ -7,20 +7,27 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "knowledge:process": "tsx scripts/advanced-process-knowledge.ts",
+    "knowledge:toc": "tsx scripts/extract-pdf-toc.ts",
+    "knowledge:test-ocr": "tsx scripts/test-ocr-single.ts"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@nuxt/content": "^3.13.0",
     "@nuxt/image": "^2.0.0",
     "@nuxtjs/tailwindcss": "^6.14.0",
     "better-sqlite3": "^12.9.0",
     "jsonwebtoken": "^9.0.3",
     "nuxt": "^4.4.2",
+    "openai": "^6.34.0",
+    "pdf-parse": "^2.4.5",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
-    "@types/jsonwebtoken": "^9.0.10"
+    "@types/jsonwebtoken": "^9.0.10",
+    "tsx": "^4.21.0"
   }
 }

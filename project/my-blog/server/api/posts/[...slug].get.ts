@@ -39,7 +39,7 @@ export default defineEventHandler(async (event) => {
     // 2. 如果数据库没有，尝试从本地 Content 读取
     const path = slug.startsWith('/') ? slug : `/${slug}`
     try {
-      const localPost = await queryCollection(event as any, 'blog')
+      const localPost = await (queryCollection as any)(event as any, 'blog')
         .where('path', '=', path)
         .first()
       
