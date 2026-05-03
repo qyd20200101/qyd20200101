@@ -1,3 +1,5 @@
+import { queryCollection } from '#imports'
+
 export default defineEventHandler(async (event) => {
   const query = (queryCollection as any)(event, 'blog')
   return {

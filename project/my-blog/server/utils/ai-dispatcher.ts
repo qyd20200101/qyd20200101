@@ -35,6 +35,8 @@ export const dispatchToolCall = async (toolCall: any) => {
         return await kTools.readKnowledgeChunk(args.chunkId)
       case 'get_document_info':
         return await kTools.getDocumentInfo(args.docId)
+      case 'list_knowledge_documents':
+        return await kTools.listKnowledgeDocuments()
       default:
         throw new Error(`未定义的工具: ${name}`)
     }

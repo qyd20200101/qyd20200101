@@ -155,5 +155,16 @@ export const aiToolDefinitions = [
         required: ['docId']
       }
     }
+  },
+  {
+    type: 'function',
+    function: {
+      name: 'list_knowledge_documents',
+      description: '列出知识库中的所有文档及其 ID、标题和类型。',
+      parameters: {
+        type: 'object',
+        properties: {}
+      }
+    }
   }
 ]

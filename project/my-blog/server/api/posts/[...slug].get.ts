@@ -1,3 +1,5 @@
+import { queryCollection } from '#imports'
+
 export default defineEventHandler(async (event) => {
   const slug = getRouterParam(event, 'slug')
   if (!slug) return null

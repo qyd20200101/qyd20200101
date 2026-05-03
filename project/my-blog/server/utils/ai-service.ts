@@ -11,7 +11,7 @@ function compressKnowledgeText(text: string): string {
   return text
     .replace(/\r\n/g, '\n')
     .replace(/[ \t]+/g, ' ')
-    .replace(/\n{2,}/g, '\n')
+    .replace(/\n{3,}/g, '\n\n') // 保留最多双换行，维持段落结构
     .trim()
 }
 
@@ -81,49 +81,61 @@ export async function askDeepSeek(options: {
     throw new Error('AI 未返回有效响应内容')
   }
 
-  // --- 增强逻辑：手动解析复杂的 DSML 格式 ---
-  if (!responseMessage.tool_calls && responseMessage.content?.includes('< | DSML |')) {
-    console.log(`[AI Debug] 检测到复杂 DSML 格式，启动深度解析...`)
+  // --- 增强逻辑：手动解析复杂的 DSML/XML 格式 ---
+  const content = responseMessage.content || ''
+  if (!responseMessage.tool_calls && (content.includes('DSML') || content.includes('invoke'))) {
+    console.log(`[AI Debug] 检测到非标准工具调用格式，启动增强解析...`)
     const toolCalls: any[] = []
     
-    // 1. 提取所有的 invoke 块
-    const invokeBlocks = responseMessage.content.match(/< \| DSML \| invoke name="([^"]+)"\s*>([\s\S]*?)<\/ \| DSML \| invoke\s*>/g)
+    // 灵活匹配 invoke 块，兼容各种管道符变体
+    const invokeRegex = /<[^>]+DSML[^>]+invoke\s+name="([^"]+)"[^>]*>([\s\S]*?)<\/[^>]+DSML[^>]+invoke\s*>/g
+    let match
     
-    if (invokeBlocks) {
-      for (const block of invokeBlocks) {
-        const nameMatch = block.match(/name="([^"]+)"/)
-        if (!nameMatch) continue
-        const name = nameMatch[1]
+    while ((match = invokeRegex.exec(content)) !== null) {
+      const name = match[1]
+      const innerContent = match[2]
+      const args: any = {}
+      
+      // 提取参数：兼容 <parameter name="xxx">value</parameter> 格式
+      const paramRegex = /<[^>]+parameter\s+name="([^"]+)"[^>]*>([\s\S]*?)<\/[^>]+parameter\s*>/g
+      let pMatch
+      let foundParam = false
+      while ((pMatch = paramRegex.exec(innerContent)) !== null) {
+        foundParam = true
+        const pName = pMatch[1]
+        const pValue = pMatch[2].trim()
         
-        // 2. 在 invoke 块中提取参数值 (支持 <parameter> 标签或直接内容)
-        let argValue = ''
-        const paramMatch = block.match(/>([^<]+)<\/ \| DSML \| parameter\s*>/)
-        if (paramMatch && paramMatch[1]) {
-          argValue = paramMatch[1].trim()
-        } else {
-          // 兜底：尝试匹配简单的标签间内容
-          const simpleMatch = block.match(/>([\s\S]*?)<\/ \| DSML \|/);
-          if (simpleMatch && simpleMatch[1]) argValue = simpleMatch[1].trim();
+        // 映射参数名到工具定义的参数名
+        if (pName === 'query') args.query = pValue
+        else if (pName === 'filename') args.filename = pValue
+        else if (pName === 'sql') args.sql = pValue
+        else if (pName === 'chunkId') args.chunkId = isNaN(parseInt(pValue)) ? pValue : parseInt(pValue)
+        else if (pName === 'docId') args.docId = isNaN(parseInt(pValue)) ? pValue : parseInt(pValue)
+        else args[pName] = pValue
+      }
+      
+      // 如果没找到标准参数标签，尝试兜底解析（直接取 invoke 块内的文本）
+      if (!foundParam) {
+        const cleanValue = innerContent.replace(/<[^>]+>/g, '').trim()
+        if (cleanValue) {
+          if (name === 'read_blog_file') args.filename = cleanValue
+          else if (name === 'query_db') args.sql = cleanValue
+          else if (name === 'read_knowledge_chunk') args.chunkId = parseInt(cleanValue)
+          else args.query = cleanValue
         }
+      }
 
-        if (argValue) {
-          let args = {}
-          if (name === 'read_blog_file') args = { filename: argValue }
-          else if (name === 'query_db') args = { sql: argValue }
-          else if (name === 'read_knowledge_chunk') args = { chunkId: parseInt(argValue) }
-          else args = { query: argValue }
-
-          toolCalls.push({
-            id: `manual_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
-            type: 'function',
-            function: { name, arguments: JSON.stringify(args) }
-          })
-        }
+      if (Object.keys(args).length > 0 || name === 'list_local_files' || name === 'list_knowledge_documents') {
+        toolCalls.push({
+          id: `manual_${Date.now()}_${Math.random().toString(36).substr(2, 5)}`,
+          type: 'function',
+          function: { name, arguments: JSON.stringify(args) }
+        })
       }
     }
     
     if (toolCalls.length > 0) {
-      console.log(`[AI Debug] 手动解析成功，共识别到 ${toolCalls.length} 个工具调用`)
+      console.log(`[AI Debug] 增强解析成功，共识别到 ${toolCalls.length} 个工具调用`)
       ;(responseMessage as any).tool_calls = toolCalls
     }
   }
