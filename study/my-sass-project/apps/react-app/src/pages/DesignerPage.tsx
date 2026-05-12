@@ -119,7 +119,7 @@ export default function DesignerPage() {
       <Sider width={280} style={{ background: '#fff', padding: 20, borderRight: '1px solid #f0f0f0' }}>
         <Title level={5}>物料库</Title>
         <Card size="small" style={{ marginBottom: 20, background: '#f9f9f9' }}>
-          <Space direction="vertical" style={{ width: '100%' }}>
+          <Space orientation="vertical" style={{ width: '100%' }}>
             <Text type="secondary" style={{fontSize: 12}}>当前选中: {selectedId || '无'}</Text>
             <Space align="center">
               <Switch size="small" checked={forceTopLevel} onChange={setForceTopLevel} />
@@ -128,7 +128,7 @@ export default function DesignerPage() {
           </Space>
         </Card>
 
-        <Space direction="vertical" style={{ width: '100%' }}>
+        <Space orientation="vertical" style={{ width: '100%' }}>
           <Button block onClick={() => addNode({ id: `f${Date.now()}`, type: 'input', label: '新输入框', props: { modelKey: `key_${Date.now()}` } }, targetInfo.parentId)}>+ 文本输入</Button>
           <Button block onClick={() => addNode({ id: `f${Date.now()}`, type: 'select', label: '新选择框', props: { modelKey: `key_${Date.now()}`, options: [] } }, targetInfo.parentId)}>+ 下拉选择</Button>
           <Button block onClick={() => addNode({ id: `g${Date.now()}`, type: 'group', label: '新分组', children: [] }, targetInfo.parentId)}>+ 分组容器</Button>

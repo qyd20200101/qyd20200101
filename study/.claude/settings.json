@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($bytes = [System.IO.File]::ReadAllBytes\\(\"D:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\packages\\\\core\\\\package.json\"\\); \"First 4 bytes: \" + \\($bytes[0..3] | ForEach-Object { $_.ToString\\(\"X2\"\\) }\\) -join \" \"; \"File size: $\\($bytes.Length\\)\"; \"Has BOM \\(EF BB BF\\): $\\($bytes[0] -eq 0xEF -and $bytes[1] -eq 0xBB -and $bytes[2] -eq 0xBF\\)\")"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "bash",
+            "command": "echo '{\"hookSpecificOutput\":{\"hookEventName\":\"SessionStart\",\"additionalContext\":\"【auto-update-CLAUDE.md hook】在本次会话即将结束、或刚交付完主任务的合适时机，请快速自我复盘：是否出现了新的、可泛化的内容（用户偏好/反复盲区/命名约定/常用命令/工具链/路径规则/反模式等）。如有，对照仓库根 CLAUDE.md（d:/qyd20200101/study/CLAUDE.md）增量追加到对应章节；已存在的条目不要重复。判断标准：必须是有规律、可复用、未来会再用上的；单次琐碎讨论或一次性 bug 修复不要写入。无新内容则什么都不做，也无需告知用户。\"}}'"
+          }
+        ]
+      }
+    ]
+  }
+}
