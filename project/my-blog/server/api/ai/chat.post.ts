@@ -1,14 +1,9 @@
 import { askDeepSeek } from '../../utils/ai-service'
+import { requireAdmin } from '../../utils/admin'
 
 export default defineEventHandler(async (event) => {
-  // 简单权限检查
-  const user = event.context.user
-  if (!user && process.env.NODE_ENV === 'production') {
-    throw createError({
-      statusCode: 401,
-      statusMessage: '未授权访问'
-    })
-  }
+  // 权限检查：所有环境都需要认证
+  requireAdmin(event)
 
   const body = await readBody(event)
   const { messages, skill } = body

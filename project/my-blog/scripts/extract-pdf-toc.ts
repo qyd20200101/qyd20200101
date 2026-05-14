@@ -59,5 +59,11 @@ async function extractTOC(pdfPath: string) {
     }
 }
 
-// 测试：以 JavaScript 高级程序设计为例
-extractTOC('knowledge/raw/books/JavaScript高级程序设计（第4版）.pdf')
+// 从命令行参数获取 PDF 路径，否则使用默认值
+const pdfArg = process.argv[2]
+if (!pdfArg) {
+  console.log('用法: npx tsx scripts/extract-pdf-toc.ts <pdf-path>')
+  console.log('示例: npx tsx scripts/extract-pdf-toc.ts knowledge/raw/books/book.pdf')
+  process.exit(1)
+}
+extractTOC(pdfArg)

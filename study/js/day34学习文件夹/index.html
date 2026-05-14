@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left">左边</div>
+        <div class="right">右边</div>
+    </div>
+
+    <div>
+        <canvas id="c" width="200" height="200"></canvas>
+    </div>
+    <div class="parent1">
+        <div class="son1"></div>
+    </div>
+    <div class="parent2">
+        <div class="son2"></div>
+    </div>
+    <div class="parent3">
+        <div class="son3"></div>
+    </div>
+
+    <div class="nav2">
+        <div class="list1"></div>
+        <div class="list2"></div>
+    </div>
+    <div class="nav3">
+        <div class="list3"></div>
+        <div class="list4"></div>
+        <div class="list5"></div>
+    </div>
+    <div class="tri-up"></div>
+    <div class="tri-right"></div>
+    <div class="hairline"></div>
+    <script>
+        const ctx = document.getElementById('c').getContext('2d');
+        ctx.fillStyle = 'red';
+        ctx.fillRect(10,10,50,50);
+    </script>
+
+</body>
+</html>

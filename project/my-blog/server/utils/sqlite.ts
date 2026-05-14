@@ -36,5 +36,16 @@ export function useDb() {
     )
   `)
 
+  // 防刷：记录每个 IP 对每篇文章的最后访问时间
+  _db.exec(`
+    CREATE TABLE IF NOT EXISTS view_log (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      slug TEXT NOT NULL,
+      ip TEXT NOT NULL,
+      visited_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(slug, ip)
+    )
+  `)
+
   return _db
 }

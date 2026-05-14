@@ -1,3 +1,4 @@
+import jwt from 'jsonwebtoken'
 import { defineEventHandler, readBody, createError, setCookie } from 'h3'
 
 export default defineEventHandler(async (event) => {
@@ -6,15 +7,29 @@ export default defineEventHandler(async (event) => {
 
   const { username, password } = body
 
-  // 验证账号密码 (对应 .env 中的 ADMIN_USERNAME 和 ADMIN_PASSWORD)
   if (username === config.adminUsername && password === config.adminPassword) {
-    // 登录成功，设置一个简单的 Cookie
-    // 注意：在实际生产中建议使用 JWT，这里为了快速实现使用基础 Token
+    // 向后兼容：保留简单 token cookie
     setCookie(event, 'auth_token', 'authenticated-admin-session', {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
       maxAge: 60 * 60 * 24 // 24小时
     })
+
+    // 签发 JWT (优先使用)
+    if (config.jwtSecret) {
+      const token = jwt.sign(
+        { username },
+        config.jwtSecret,
+        { expiresIn: '7d' }
+      )
+      setCookie(event, 'admin_token', token, {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+        maxAge: 60 * 60 * 24 * 7
+      })
+    }
 
     return { message: '登录成功' }
   }

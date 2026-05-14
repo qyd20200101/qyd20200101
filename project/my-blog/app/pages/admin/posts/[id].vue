@@ -23,7 +23,8 @@ const loading = ref(false)
 const fetching = ref(true)
 const errorMsg = ref('')
 
-const typeOptions = ['JavaScript', 'Vue', 'Nuxt', '性能优化', '前端工程化', '项目复盘', '面试八股', '其他']
+import { BLOG_CONFIG } from '~~/server/utils/config'
+const typeOptions = [...BLOG_CONFIG.typeOptions, '其他']
 const selectedType = ref('')
 
 watch(selectedType, (newVal) => {

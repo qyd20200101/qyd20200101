@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BlogCard from '~/components/BlogCard.vue'
+import { BLOG_CONFIG } from '~~/server/utils/config'
 
 type BlogPost = {
     path: string
@@ -28,7 +29,7 @@ const { data: posts } = await useAsyncData<BlogPost[]>('home-posts', async () =>
         const title = p.title || p.stem?.replace(/_/g, '/') || '未命名文章'
         
         // 确保有描述，如果没有则提供默认简介
-        const description = p.description || (p.stem?.includes('学习日报') ? '今日学习重点内容汇总与核心知识点复盘，记录成长点滴。' : '')
+        const description = p.description || (p.stem?.includes('学习日报') ? BLOG_CONFIG.defaultDescriptions.studyNote : BLOG_CONFIG.defaultDescriptions.fallback)
         
         return { 
             ...p, 
@@ -46,7 +47,7 @@ const { data: posts } = await useAsyncData<BlogPost[]>('home-posts', async () =>
         dbPosts = dbPostsRaw.map(p => ({
             path: `/${p.slug}`,
             title: p.title,
-            description: p.description || (p.title?.includes('学习日报') ? '在线数据库同步的学习日报内容简介。' : ''),
+            description: p.description || (p.title?.includes('学习日报') ? BLOG_CONFIG.defaultDescriptions.dbNote : BLOG_CONFIG.defaultDescriptions.fallback),
             date: p.createdAt?.slice(0, 10),
             tags: p.tags,
             type: p.type,
@@ -77,15 +78,23 @@ const { data: posts } = await useAsyncData<BlogPost[]>('home-posts', async () =>
     return combined.sort((a, b) => (b.date || '').localeCompare(a.date || ''))
 })
 
-const recentTags = ['JavaScript', 'Vue', 'Nuxt', '性能优化', '前端工程化', '项目复盘', '面试八股']
-const focusOptions = ['JavaScript', 'Vue', '前端工程化', '性能优化']
+// 从实际文章数据动态聚合标签和类型，不再硬编码
+const recentTags = computed(() => topTags(posts.value ?? [], 10))
+const focusOptions = computed(() => {
+  const types = new Set<string>()
+  posts.value?.forEach((p: any) => {
+    if (p.type) types.add(p.type)
+    if (p.category) types.add(p.category)
+  })
+  return [...types].slice(0, 6)
+})
 
 const tagCounts = computed(() => {
     const counts: Record<string, number> = {}
-    recentTags.forEach(t => counts[t] = 0)
+    recentTags.value.forEach(t => counts[t] = 0)
     posts.value?.forEach(p => {
         p.tags?.forEach(t => {
-            if (t in counts) (counts[t] as any)++
+            if (t in counts) counts[t]++
         })
     })
     return counts
@@ -93,11 +102,12 @@ const tagCounts = computed(() => {
 
 const focusCounts = computed(() => {
     const counts: Record<string, number> = {}
-    focusOptions.forEach(f => counts[f] = 0)
+    const opts = focusOptions.value
+    opts.forEach(f => counts[f] = 0)
     posts.value?.forEach(post => {
         const p = post as any
-        const match = focusOptions.find(f => f === p.type || f === p.category || f === p.theme)
-        if (match) (counts[match] as any)++
+        const match = opts.find(f => f === p.type || f === p.category || f === p.theme)
+        if (match) counts[match]++
     })
     return counts
 })

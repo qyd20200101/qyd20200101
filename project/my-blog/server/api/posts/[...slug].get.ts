@@ -1,4 +1,5 @@
-import { queryCollection } from '#imports'
+import { getRequestIP } from 'h3'
+import { queryBlogCollection } from '../../utils/content'
 
 export default defineEventHandler(async (event) => {
   const slug = getRouterParam(event, 'slug')
@@ -8,16 +9,32 @@ export default defineEventHandler(async (event) => {
   const db = useDb()
   const post = db.prepare("SELECT * FROM posts WHERE slug = ? AND status = 'published'").get(slug)
 
-  // 3. 浏览量统计 (统一逻辑)
+  // 3. 浏览量统计 (IP 去重 + 30 分钟冷却)
+  const clientIp = getRequestIP(event, { xForwardedFor: true }) || 'unknown'
   const stats = db.prepare("SELECT views FROM stats WHERE slug = ?").get(slug) as { views: number } | undefined
-  let currentViews = (stats?.views || 0) + 1
-  
-  // 更新统计表
-  db.prepare("INSERT OR REPLACE INTO stats (slug, views) VALUES (?, ?)").run(slug, currentViews)
-  
-  // 如果是数据库文章，同步更新 posts 表
-  if (post) {
-    db.prepare("UPDATE posts SET views = views + 1 WHERE slug = ?").run(slug)
+  let currentViews = stats?.views || 0
+
+  // 检查 IP 上次访问该文章的时间
+  const lastVisit = db.prepare(
+    "SELECT visited_at FROM view_log WHERE slug = ? AND ip = ?"
+  ).get(slug, clientIp) as { visited_at: string } | undefined
+
+  const now = Date.now()
+  const cooldownMs = 30 * 60 * 1000 // 30 分钟
+  const shouldCount = !lastVisit ||
+    (now - new Date(lastVisit.visited_at + 'Z').getTime()) > cooldownMs
+
+  if (shouldCount) {
+    currentViews++
+    db.prepare(
+      "INSERT OR REPLACE INTO view_log (slug, ip, visited_at) VALUES (?, ?, ?)"
+    ).run(slug, clientIp, new Date().toISOString())
+
+    db.prepare("INSERT OR REPLACE INTO stats (slug, views) VALUES (?, ?)").run(slug, currentViews)
+
+    if (post) {
+      db.prepare("UPDATE posts SET views = views + 1 WHERE slug = ?").run(slug)
+    }
   }
 
   let finalPost: any = null
@@ -41,7 +58,7 @@ export default defineEventHandler(async (event) => {
     // 2. 如果数据库没有，尝试从本地 Content 读取
     const path = slug.startsWith('/') ? slug : `/${slug}`
     try {
-      const localPost = await (queryCollection as any)(event as any, 'blog')
+      const localPost = await queryBlogCollection(event)
         .where('path', '=', path)
         .first()
       

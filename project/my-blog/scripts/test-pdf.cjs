@@ -2,9 +2,11 @@ const fs = require('fs');
 const pdf = require('pdf-parse/lib/pdf-parse.js');
 
 async function test() {
-  const filePath = 'knowledge/raw/books/JavaScript高级程序设计（第4版）.pdf';
+  const filePath = process.argv[2] || 'knowledge/raw/books/JavaScript高级程序设计（第4版）.pdf';
+  console.log(`正在探测 PDF: ${filePath}`);
   if (!fs.existsSync(filePath)) {
-    console.log('文件不存在');
+    console.log(`文件不存在: ${filePath}`);
+    console.log('用法: node scripts/test-pdf.cjs <pdf-path>');
     return;
   }
   const dataBuffer = fs.readFileSync(filePath);

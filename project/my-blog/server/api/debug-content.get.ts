@@ -1,6 +1,6 @@
-import { queryCollection } from '#imports'
+import { queryBlogCollection } from '../utils/content'
 
 export default defineEventHandler(async (event) => {
-  const blog = await (queryCollection as any)(event, 'blog').all()
+  const blog = await queryBlogCollection(event).all()
   return (blog as any[]).map((p: any) => ({ path: p.path, stem: p.stem }))
 })

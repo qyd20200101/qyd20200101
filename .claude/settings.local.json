@@ -3,20 +3,6 @@
     "allow": [
       "PowerShell(Get-ChildItem \"d:\\\\qyd20200101\\\\study\\\\docs\" -Recurse -File | ForEach-Object { $_.FullName + \" \\(\" + $_.Length + \" bytes\\)\" })",
       "PowerShell(Get-ChildItem \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\" -Recurse -File | ForEach-Object { $_.FullName + \" \\(\" + $_.Length + \" bytes\\)\" })",
-      "PowerShell(New-Item -ItemType Directory -Path \"d:\\\\qyd20200101\\\\study\\\\docs\\\\study-guide\" -Force)",
-      "PowerShell(New-Item -ItemType Directory -Path \"d:\\\\qyd20200101\\\\study\\\\docs\\\\interview\" -Force)",
-      "PowerShell(New-Item -ItemType Directory -Path \"d:\\\\qyd20200101\\\\study\\\\docs\\\\self-review\" -Force)",
-      "PowerShell(Move-Item \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\\\\self-review\\\\2026-05-10.md\" \"d:\\\\qyd20200101\\\\study\\\\docs\\\\self-review\\\\\")",
-      "PowerShell(Move-Item \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\\\\self-review\\\\2026-05-10-��ȫ��.md\" \"d:\\\\qyd20200101\\\\study\\\\docs\\\\self-review\\\\\")",
-      "PowerShell(Move-Item \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\\\\self-review\\\\2026-05-11.md\" \"d:\\\\qyd20200101\\\\study\\\\docs\\\\self-review\\\\\")",
-      "PowerShell(Move-Item \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\\\\self-review\\\\2026-05-12.md\" \"d:\\\\qyd20200101\\\\study\\\\docs\\\\self-review\\\\\")",
-      "PowerShell(Move-Item \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\\\\self-review\\\\README.md\" \"d:\\\\qyd20200101\\\\study\\\\docs\\\\self-review\\\\\")",
-      "PowerShell(Move-Item \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\\\\study-guide\\\\VUE3_STEP1_LEARNING.md\" \"d:\\\\qyd20200101\\\\study\\\\docs\\\\study-guide\\\\\")",
-      "PowerShell(Move-Item \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\\\\study-guide\\\\VUE3_TS_LEARNING.md\" \"d:\\\\qyd20200101\\\\study\\\\docs\\\\study-guide\\\\\")",
-      "PowerShell(Move-Item \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\\\\interview\\\\���Ի����ֲ�.md\" \"d:\\\\qyd20200101\\\\study\\\\docs\\\\interview\\\\\")",
-      "PowerShell(Move-Item \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\\\\interview\\\\����ʵսָ��.md\" \"d:\\\\qyd20200101\\\\study\\\\docs\\\\interview\\\\\")",
-      "PowerShell(Copy-Item \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\\\\interview\\\\project-tree.txt\" \"d:\\\\qyd20200101\\\\study\\\\docs\\\\interview\\\\��Ŀ�ṹ�ο�.txt\")",
-      "PowerShell(Get-ChildItem \"d:\\\\qyd20200101\\\\study\\\\docs\" -Recurse -File | ForEach-Object { $_.FullName.Replace\\(\"D:\\\\qyd20200101\\\\study\\\\docs\\\\\", \"\"\\) + \" \\(\" + $_.Length + \" bytes\\)\" })",
       "Bash(Measure-Object -Line)"
     ],
     "additionalDirectories": [
