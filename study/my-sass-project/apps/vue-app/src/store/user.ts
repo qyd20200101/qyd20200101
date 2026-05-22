@@ -2,14 +2,12 @@ import { defineStore } from "pinia";
 import { ref, computed } from "vue";
 import { loginApi, getUserInfoApi } from "../api/user";
 import type { RouteRecordRaw } from "vue-router";
-// import { resetRouter } from "../router/index";
-
 //使用Setup Store覆盖
 export const useUserStore = defineStore(
   "user",
   () => {
     // 1.状态（state）
-    const token = ref(localStorage.getItem("token") || '');
+    const token = ref(localStorage.getItem("token") || "");
     const roles = ref<string[]>([]); //存储接受，如['admin]或['editor]
     const userInfo = ref<any>(null);
 
@@ -66,8 +64,8 @@ export const useUserStore = defineStore(
   {
     //开启持久化
     persist: {
-      key: 'user-storage',
-      pick: ['token']
+      key: "user-storage",
+      pick: ["token"],
     },
   },
 );

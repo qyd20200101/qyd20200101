@@ -3,7 +3,17 @@
     "allow": [
       "PowerShell(Get-ChildItem \"d:\\\\qyd20200101\\\\study\\\\docs\" -Recurse -File | ForEach-Object { $_.FullName + \" \\(\" + $_.Length + \" bytes\\)\" })",
       "PowerShell(Get-ChildItem \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\docs\" -Recurse -File | ForEach-Object { $_.FullName + \" \\(\" + $_.Length + \" bytes\\)\" })",
-      "Bash(Measure-Object -Line)"
+      "Bash(Measure-Object -Line)",
+      "Bash(git commit -m 'refactor: 重构 js/ 目录，26 个散目录归并为 6 大模块 *)",
+      "Bash(git add *)",
+      "Bash(git commit -m 'chore: sync Day34-35学习日报、CLAUDE.md更新、CSS场景实现笔记 *)",
+      "Bash(git push *)",
+      "Bash(npx --yes puppeteer --version)",
+      "PowerShell(Get-Command node -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command npx -ErrorAction SilentlyContinue)",
+      "Bash(Get-ChildItem -Path \"d:\\\\qyd20200101\\\\study\\\\my-sass-project\\\\apps\\\\vue-app\" -Recurse -Depth 4)",
+      "Bash(Select-Object Mode, FullName)",
+      "Bash(Format-Table -AutoSize -Wrap)"
     ],
     "additionalDirectories": [
       "d:\\qyd20200101\\study"
